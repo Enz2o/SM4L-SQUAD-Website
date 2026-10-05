@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SM4L SQUAD</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#0a0a0a;--card:#151515;--line:#262626;--fg:#f4f4f4;--mut:#8a8a8a;--ac:#e11d2e}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 'Space Grotesk',system-ui,sans-serif}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);background:#0a0a0acc;backdrop-filter:blur(10px);z-index:5}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.08em;font-size:18px;cursor:pointer}
+.brand img{height:36px;border-radius:6px}
+nav{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+nav button{background:none;border:0;color:var(--mut);padding:8px 12px;border-radius:20px;cursor:pointer;font:inherit}
+nav button.on,nav button:hover{color:#fff;background:var(--card)}
+.me{font-size:13px;color:var(--mut)}
+main{max-width:1100px;margin:0 auto;padding:20px}
+.hero{border-radius:20px;padding:70px 28px;margin-bottom:28px;background:#1a0407 center/cover;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#000c,#0004)}
+.hero>*{position:relative}
+.hero h1{margin:0;font-size:clamp(34px,8vw,72px);letter-spacing:.06em;line-height:1}
+.hero p{color:#ddd;margin:10px 0 0}
+h2{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);margin:30px 0 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer;transition:.25s}
+.tile:hover{transform:translateY(-4px);border-color:var(--ac)}
+.tile .im{aspect-ratio:1/1;background:#222 center/cover;position:relative}
+.tile .im.w{aspect-ratio:16/10}
+.tile .im .bk{position:absolute;inset:0;background:center/cover;opacity:0;transition:.3s}
+.tile:hover .im .bk{opacity:1}
+.tile .tx{padding:12px 14px}.tile b{display:block}.tile span{color:var(--mut);font-size:13px}
+.price{color:var(--ac);font-weight:700}
+.chip{display:inline-block;border:1px solid var(--line);border-radius:20px;padding:5px 12px;margin:3px 4px 3px 0;color:var(--fg);text-decoration:none;font-size:13px}
+.chip:hover{border-color:var(--ac)}
+button{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:9px 16px;font:inherit;font-weight:600;cursor:pointer}
+button.b2{background:var(--line)}button.del{background:#3a0a10}
+label{display:block;font-size:12px;color:var(--mut);margin:10px 0}
+input,textarea,select{display:block;width:100%;margin-top:4px;background:#0d0d0d;color:var(--fg);border:1px solid var(--line);border-radius:10px;padding:9px 11px;font:inherit}
+textarea{min-height:80px;resize:vertical}
+.row{display:flex;gap:8px}.row input{flex:1}
+.li{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.li button{padding:5px 10px;margin-left:4px;font-size:12px}
+.mut{color:var(--mut)}
+.post{display:flex;gap:12px}.av{width:40px;height:40px;border-radius:50%;background:var(--ac);display:grid;place-items:center;font-weight:700;flex:none}
+.badge{font-size:11px;background:var(--ac);border-radius:8px;padding:1px 7px;margin-left:6px}
+.post img{max-width:100%;border-radius:12px;margin-top:8px}
+.topic{display:flex;justify-content:space-between;gap:12px;cursor:pointer}
+.topic:hover{border-color:var(--ac)}
+.ov{position:fixed;inset:0;background:#000b;display:grid;place-items:center;padding:16px;z-index:20;overflow:auto;animation:fade .3s}
+.blob{width:min(640px,100%);max-height:92vh;overflow:auto;background:var(--card);border:1px solid var(--ac);padding:0 0 22px;border-radius:60px 30px 70px 40px/40px 70px 30px 60px;animation:morph 9s ease-in-out infinite,pop .5s cubic-bezier(.2,1.4,.4,1)}
+.blob .ban{height:170px;background:#2a0a10 center/cover}
+.blob .in{padding:0 26px}
+.x{position:absolute;right:20px;top:14px;background:#000a}
+@keyframes morph{50%{border-radius:30px 70px 40px 60px/70px 30px 60px 40px}}
+@keyframes pop{from{transform:scale(.3);opacity:0}}
+@keyframes fade{from{opacity:0}}
+#bgm{position:fixed;inset:0;z-index:-1;background:#000;overflow:hidden}#bgm .bi{position:absolute;inset:0;background:center/cover;transform:scale(1.06);filter:blur(var(--blur,0px)) saturate(var(--sat,100%))}#bgm video{width:100%;height:100%;object-fit:cover}#bgm:after{content:"";position:absolute;inset:0;background:rgba(0,0,0,var(--dim,.7))}
+#bgm.kb .bi{animation:kb 22s ease-in-out infinite alternate}@keyframes kb{from{transform:scale(1.06)}to{transform:scale(1.22)}}
+#bgm.gl{animation:gl 3.2s steps(1) infinite}
+@keyframes gl{0%,88%,100%{transform:none;filter:none;clip-path:none}90%{transform:translate(calc(var(--g)*-.5px),0) skewX(calc(var(--g)*.1deg));filter:hue-rotate(90deg) saturate(2)}92%{transform:translate(calc(var(--g)*.7px),calc(var(--g)*.2px));clip-path:inset(20% 0 55% 0);filter:hue-rotate(-60deg)}94%{transform:translate(calc(var(--g)*-.3px),0);clip-path:inset(60% 0 10% 0)}96%{transform:none;clip-path:none}}
+#fxl{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}#fxl i{position:absolute;inset:0}
+#fxl .gr{inset:-60px;opacity:var(--grain,0);mix-blend-mode:overlay;animation:gr .6s steps(3) infinite;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")}
+@keyframes gr{33%{transform:translate(-30px,20px)}66%{transform:translate(25px,-35px)}}
+#fxl .sc{opacity:var(--scan,0);background:repeating-linear-gradient(#0000 0 2px,#000 2px 4px)}#fxl .vg{opacity:var(--vig,0);background:radial-gradient(#0000 35%,#000)}
+#fxl #emb i{inset:auto;bottom:-10px;border-radius:50%;background:var(--ac);box-shadow:0 0 8px var(--ac);animation:up linear infinite}@keyframes up{to{transform:translateY(-110vh) translateX(40px);opacity:0}}
+.fwrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}.chat{position:sticky;top:90px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}.chat h3{margin:0;font-size:15px}#chatlist{height:46vh;overflow:auto;margin:10px 0;font-size:13px;word-break:break-word}.cmsg{padding:3px 0}
+.bar{display:flex;gap:8px;justify-content:space-between;align-items:flex-start;margin-bottom:12px}.bar .tabs{margin:0}
+.rp{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px;cursor:pointer}.rp:hover{border-color:#444}.vt{display:flex;flex-direction:column;align-items:center;min-width:34px}.vb{background:none;color:var(--mut);padding:2px 8px}.vb.on{color:var(--ac)}.rb{flex:1;min-width:0}.rb h4{margin:3px 0}.pv{margin:0 0 6px;color:#bbb;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.rth{width:90px;height:90px;border-radius:10px;background:#222 center/cover;flex:none}
+.dlg{width:min(560px,100%);background:var(--card);border:1px solid var(--ac);border-radius:18px;padding:22px;position:relative;animation:pop .35s}
+.ban{height:170px;background:#2a0a10 center/cover}.in{padding:0 26px}.phead{padding:0 0 18px!important;overflow:hidden}
+.pfp{width:96px;height:96px;border-radius:50%;background:#222 center/cover;border:4px solid var(--card);margin-top:-48px;position:relative}.pfp.s{position:absolute;left:12px;bottom:10px;width:52px;height:52px;margin:0;border-width:2px}
+.av{background-size:cover;background-position:center}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ac);color:#fff;padding:10px 18px;border-radius:12px;z-index:60;max-width:90%}
+.stars{color:#00c030;letter-spacing:2px;font-size:18px;line-height:1.2}.rth.po{width:70px;height:105px;display:grid;place-items:center;font-size:28px}
+@media(max-width:860px){.fwrap{grid-template-columns:1fr}.chat{position:static}}
+.top{padding:70px 0 6px}.top h1{margin:0;font-size:clamp(38px,9vw,84px);letter-spacing:.06em;line-height:1}.top p{color:#ddd;margin:8px 0 0}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}.tabs button{background:var(--card);color:var(--mut);border:1px solid var(--line)}.tabs button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.adm{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}.panel h3{margin:0 0 12px;font-size:15px}.panel+.panel{position:sticky;top:90px}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.fg label:has(textarea),.fg label:has(.row){grid-column:1/-1}
+.admnav{display:flex;gap:6px;flex-wrap:wrap;padding:6px;background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:16px}.admnav button{background:none;color:var(--mut)}.admnav button.on{background:var(--ac);color:#fff}
+.pl{width:min(860px,100%);background:#000;border:1px solid var(--ac);border-radius:18px;overflow:hidden;position:relative}.pl video{display:block}
+.pp{position:absolute;right:10px;bottom:10px;background:var(--ac);border-radius:50%;width:38px;height:38px;display:grid;place-items:center}
+.lk{cursor:pointer}.lk:hover{color:var(--ac)}
+@media(max-width:760px){.adm,.fg{grid-template-columns:1fr}.panel+.panel{position:static}}
+</style></head><body><div id="bgm"></div><div id="fxl"><i class="gr"></i><i class="sc"></i><i class="vg"></i><div id="emb"></div></div>
+<header id="hd"></header><main id="app"></main>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const U=s=>/^(https?:\/\/|\/_blob\/)/i.test(s||'')?esc(s):'#',uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+let db=null,assets=null,me={id:null,isOwner:false},view='all',open=null,topic=null,ED={},play=null,comp=false,pedit=false,EDP=null,CF=null,compCat=null,omerch=null,cartOpen=false,ORD=null,OCV={},CART=(()=>{try{return JSON.parse(localStorage.getItem('sm4l_cart')||'[]')}catch(e){return[]}})(),realMe={id:null,isOwner:false},OUT=(()=>{try{return localStorage.getItem('sm4l_out')==='1'}catch(e){return false}})(),FXP=null,fcat=null,omem=null,AT0='site',bgKey=null,seeded=0;
+const S={set:{},cats:[],artists:[],rel:[],merch:[],members:[],topics:[],replies:[],popups:[],orders:[],fcats:[],votes:[],chat:[]};
+const col={cats:'cats',artists:'artists',rel:'releases',merch:'merch',members:'members',topics:'topics',replies:'replies',fcats:'fcats',popups:'popups',orders:'orders',votes:'votes',chat:'chat'};
+const cm={cats:'cats',artists:'artists',releases:'rel',merch:'merch',members:'members',topics:'topics',replies:'replies',fcats:'fcats',popups:'popups',orders:'orders',votes:'votes',chat:'chat'};
+const mm=()=>S.members.find(m=>m.id===me.id),isAdmin=()=>me.isOwner||mm()?.role==='admin';
+const can=()=>db&&me.id&&mm()&&mm().role!=='banned';
+window.alert=t=>{const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),4500)};
+const confirmBox=()=>CF?`<div class="ov" data-act="cfno"><div class="dlg"><p style="margin-top:0">${esc(CF.msg)}</p><button class="del" data-act="cfyes">Oui, supprimer</button> <button class="b2" data-act="cfno">Annuler</button></div></div>`:'';
+async function doDel(c,id){try{if(c==='topics'){for(const v of S.votes.filter(v=>v.topicId===id))await db.doc('votes/'+v.id).delete();for(const r of S.replies.filter(r=>r.topicId===id))await db.doc('replies/'+r.id).delete();topic=null}
+ await db.doc(c+'/'+id).delete()}catch(x){alert('Suppression refusée : '+(x.message||x.code||x))}render()}
+const w=(p,d)=>db.doc(p).set(d).catch(e=>alert('Action refusée : '+(e.message||e.code)));
+const ytThumb=u=>{const m=/(?:v=|youtu\.be\/)([\w-]{11})/.exec(u||'');return m?`https://img.youtube.com/vi/${m[1]}/hqdefault.jpg`:''};
+const bg=u=>u&&/^(https?:|\/_blob|data:)/.test(u)?`style="background-image:url('${esc(u)}')"`:'';
+const aName=id=>S.artists.find(a=>a.id===id)?.name||'Artiste';
+const BASE=[['all','Tout voir'],['drop','Dernier drop'],['artists','Artistes'],['merch','Merch'],['forum','Forum']];
+const ao=()=>S.artists.map(a=>[a.id,a.name]),mo=()=>[['','—'],...S.members.map(m=>[m.id,m.pseudo])];
+const FS={
+ site:()=>[['name','Nom du label'],['tagline','Slogan'],['logo','Logo','img'],['paypal','PayPal.me (ex: sm4lsquad)'],['ship','Frais de port (€)'],['hero','Image de fond (tout le site)','img'],['heroVideo','Vidéo de fond (mp4, optionnel)','img'],['ig','Instagram (lien)'],['sp','Spotify (lien)'],['yt','YouTube (lien)']],
+ fcat:()=>[['name','Nom de la catégorie'],['desc','Description'],['parent','Sous-catégorie de…','sel',[['','— (catégorie principale)'],...S.fcats.filter(c=>!c.parent).map(c=>[c.id,c.name])]],['kind','Type','sel',[['','Discussion'],['review','Reviews de films (façon Letterboxd)']]]],
+ pf:()=>[['avatar','Photo de profil','img'],['bio','Bio','area'],['banner','Bannière','img'],['ig','Instagram'],['sp','Spotify'],['yt','YouTube'],['sc','SoundCloud'],['other','Autre lien']],
+ cat:()=>[['label','Nom de la catégorie'],['text','Contenu de la page','area']],
+ artist:()=>[['name','Nom'],['bio','Bio','area'],['avatar','Photo de profil (pp)','img'],['banner','Bannière','img'],['ig','Instagram'],['sp','Spotify'],['yt','YouTube'],['sc','SoundCloud'],['tt','TikTok'],['other','Autre lien'],['userId','Compte membre lié (peut poster ses sons)','sel',mo()]],
+ oc:()=>[['name','Nom complet'],['email','E-mail'],['addr','Adresse'],['zip','Code postal'],['city','Ville'],['country','Pays']],
+ popup:()=>[['title','Titre'],['text','Texte','area'],['img','Image (optionnel)','img'],['btn','Texte du bouton (optionnel)'],['link','Lien du bouton'],['active','Affichage','sel',[['1','Actif'],['0','Désactivé']]],['once','Fréquence','sel',[['1','Une seule fois par visiteur'],['0','À chaque visite']]]],
+ merch:()=>[['name','Nom'],['price','Prix (ex: 42€)'],['sizes','Tailles (ex: S,M,L,XL)'],['desc','Description','area'],['img','Photo face','img'],['back','Photo dos (survol)','img']],
+ rel:()=>[['artistId','Artiste','sel',ao()],['title','Titre'],['type','Type','sel',[['Son','Son'],['Clip','Clip']]],['url','Lien (YouTube, Spotify, SoundCloud…)'],['file','Fichier à lire sur le site (mp4 ou webm, max 20 Mo)','img'],['cover','Cover','img']],
+ pr:()=>[['title','Titre'],['type','Type','sel',[['Son','Son'],['Clip','Clip']]],['url','Lien (YouTube, Spotify, SoundCloud…)'],['file','Fichier à lire sur le site (mp4 ou webm, max 20 Mo)','img'],['cover','Cover','img']]};
+function field(p,[k,l,t,o],v){const id=p+'-'+k,val=esc(v??'');
+ if(t==='area')return `<label>${l}<textarea id="${id}">${val}</textarea></label>`;
+ if(t==='sel')return `<label>${l}<select id="${id}">${o.map(([a,b])=>`<option value="${esc(a)}"${a==v?' selected':''}>${esc(b)}</option>`).join('')}</select></label>`;
+ if(t==='img')return `<label>${l}<span class="row"><input id="${id}" value="${val}" placeholder="URL${assets?' ou fichier':''}">${assets?`<button type="button" class="b2" data-act="up" data-t="${id}">Envoyer</button>`:''}</span></label>`;
+ return `<label>${l}<input id="${id}" value="${val}"></label>`}
+const rd=(p,fs)=>Object.fromEntries(fs.map(f=>[f[0],($('#'+p+'-'+f[0])?.value||'').trim()]));
+const fmt=t=>t?new Date(t).toLocaleDateString('fr-FR'):'';
+
+function relTile(r){const im=r.cover||ytThumb(r.url);return `<div class="tile" data-act="play" data-id="${r.id}"><div class="im w" ${bg(im)}><div class="pp">▶</div></div><div class="tx"><b>${esc(r.title)}</b><span>${esc(aName(r.artistId))} · ${esc(r.type)}</span></div></div>`}
+const artTile=a=>`<div class="tile" data-act="art" data-id="${a.id}"><div class="im" ${bg(a.banner)}>${a.avatar?`<div class="pfp s" ${bg(a.avatar)}></div>`:''}</div><div class="tx"><b>${esc(a.name)}</b><span>Voir le profil</span></div></div>`;
+const merchTile=m=>`<div class="tile" data-act="mer" data-id="${m.id}"><div class="im" ${bg(m.img)}><div class="bk" ${bg(m.back)}></div></div><div class="tx"><b>${esc(m.name)}</b><span class="price">${esc(m.price)}</span><br><span>${esc(m.desc)}</span></div></div>`;
+const drops=()=>[...S.rel].sort((a,b)=>(b.ts||0)-(a.ts||0));
+const sec=(t,h)=>`<h2>${t}</h2>${h}`;
+
+function home(){const d=drops().slice(0,4);
+ return sec('Dernier drop',`<div class="grid">${d.map(relTile).join('')||'<p class="mut">Aucun drop pour le moment.</p>'}</div>`)+sec('Artistes',`<div class="grid">${S.artists.map(artTile).join('')||'<p class="mut">Aucun artiste.</p>'}</div>`)+sec('Merch',`<div class="grid">${S.merch.slice(0,4).map(merchTile).join('')||'<p class="mut">Rien en vente.</p>'}</div>`)}
+
+function artistModal(){const a=S.artists.find(x=>x.id===open);if(!a)return'';
+ const rs=drops().filter(r=>r.artistId===a.id);
+ const links=lk(a);
+ const mine=db&&(isAdmin()||(me.id&&a.userId===me.id));
+ return `<div class="ov" data-act="close"><div class="blob" style="position:relative"><div class="ban" ${bg(a.banner)}></div><button class="x" data-act="close">✕</button><div class="in">${a.avatar?`<div class="pfp" ${bg(a.avatar)}></div>`:''}<h1 style="margin:${a.avatar?'8px':'16px'} 0 4px">${esc(a.name)}</h1><p>${esc(a.bio)}</p>${links}<h2>Sons &amp; clips</h2><div class="grid" style="grid-template-columns:1fr 1fr">${rs.map(relTile).join('')||'<p class="mut">Rien pour l\'instant.</p>'}</div>${mine?`<h2>Poster un son / clip</h2>${FS.pr().map(f=>field('pr',f)).join('')}<button data-act="postrel" data-id="${a.id}">Publier</button>`:''}</div></div></div>`}
+
+const lk=o=>[['ig','Instagram'],['sp','Spotify'],['yt','YouTube'],['sc','SoundCloud'],['tt','TikTok'],['other','Lien']].filter(([k])=>o[k]).map(([k,l])=>`<a class="chip" target="_blank" rel="noopener" href="${U(o[k])}">${l}</a>`).join('');
+function profHead(m){return `<div class="ban" ${bg(m.banner)}></div><div class="in">${m.avatar?`<div class="pfp" ${bg(m.avatar)}></div>`:`<div class="pfp" style="display:grid;place-items:center;background:var(--ac);font-size:36px;font-weight:700">${esc(m.pseudo[0]||'?').toUpperCase()}</div>`}<h1 style="margin:8px 0 4px">${esc(m.pseudo)}${m.role!=='member'?`<span class="badge">${m.role==='admin'?'Staff':esc(m.role)}</span>`:''}</h1><p class="mut" style="margin:0">${S.topics.filter(t=>t.uid===m.id).length} posts · ${S.replies.filter(r=>r.uid===m.id).length} commentaires · membre depuis ${fmt(m.ts)}</p><p>${esc(m.bio)||'<span class="mut">Pas de bio.</span>'}</p>${lk(m)}</div>`}
+const myPosts=m=>S.topics.filter(t=>t.uid===m.id).sort((a,b)=>b.ts-a.ts).map(t=>`<div class="rp" data-act="top" data-id="${t.id}"><div class="rb"><span class="mut">${esc(cname(t.cat))} · ${fmt(t.ts)}</span><h4>${esc(t.title)}${t.year?` <span class="mut">(${esc(t.year)})</span>`:''}</h4>${t.review?`<div class="stars">${stars(t.rating)}</div>`:''}<p class="pv">${t.spoiler?'⚠ Spoilers — ouvre le post pour lire':esc(t.text)}</p></div></div>`).join('')||'<p class="mut">Aucun post.</p>';
+function memberModal(){const m=S.members.find(x=>x.id===omem);if(!m)return'';return `<div class="ov" data-act="closeM"><div class="blob" style="position:relative"><button class="x" data-act="closeM">✕</button>${profHead(m)}<div class="in"><h2>Posts</h2>${myPosts(m)}</div></div></div>`}
+function playerModal(){const r=S.rel.find(x=>x.id===play);if(!r)return'';const f=r.file||'',u=r.url||'';
+ const dv=x=>/\.(mp4|webm|mov)(\?|$)|^\/_blob/.test(x),au=x=>/\.(mp3|wav|ogg|m4a)(\?|$)/.test(x);
+ const src=(dv(f)||au(f))?f:((dv(u)||au(u))?u:'');let h;
+ if(src&&au(src))h=`<audio src="${U(src)}" controls autoplay style="width:100%;margin:30px 0"></audio>`;
+ else if(src)h=`<video src="${U(src)}" controls autoplay playsinline style="width:100%;max-height:70vh;display:block"></video>`;
+ else{const host=(/https?:\/\/(?:www\.|open\.|m\.)?([\w-]+)/.exec(u)||[])[1]||'le site',nm={youtube:'YouTube',youtu:'YouTube',spotify:'Spotify',soundcloud:'SoundCloud'}[host]||host;
+  h=`<div style="padding:44px 20px;text-align:center;background:#111 ${r.cover&&U(r.cover)!=='#'?`url('${U(r.cover)}') center/cover`:''}"><a class="chip" style="background:var(--ac);border-color:var(--ac);padding:12px 22px;font-size:16px" target="_blank" rel="noopener" href="${U(u)}">▶ Regarder / écouter sur ${esc(nm)}</a></div>`}
+ return `<div class="ov" data-act="closeP"><div class="pl"><button class="x" data-act="closeP">✕</button>${h}<div style="padding:12px 16px;background:var(--card)"><b>${esc(r.title)}</b> <span class="mut">${esc(aName(r.artistId))}</span>${u?`<a class="chip" style="float:right" target="_blank" rel="noopener" href="${U(u)}">Ouvrir le lien</a>`:''}</div></div></div>`}
+const pr=x=>parseFloat(String(x||'').replace(',','.').replace(/[^\d.]/g,''))||0,sv=()=>{try{localStorage.setItem('sm4l_cart',JSON.stringify(CART))}catch(e){}};
+const cartItems=()=>CART.map(i=>({...i,m:S.merch.find(x=>x.id===i.id)})).filter(i=>i.m);
+const totals=()=>{const its=cartItems(),sub=its.reduce((a,i)=>a+pr(i.m.price)*i.q,0),ship=its.length?pr(S.set.ship):0;return{its,sub,ship,tot:sub+ship}};
+function merchModal(){const m=S.merch.find(x=>x.id===omerch);if(!m)return'';const sz=(m.sizes||'').split(',').map(x=>x.trim()).filter(Boolean);
+ const im=(src,l)=>src?`<figure style="margin:0"><img src="${U(src)}" alt="${l}" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:14px;background:#222;display:block"><figcaption class="mut" style="text-align:center;font-size:12px;margin-top:4px">${l}</figcaption></figure>`:'';
+ return `<div class="ov" data-act="closeMe"><div class="blob" style="position:relative"><button class="x" data-act="closeMe">✕</button><div class="in" style="padding-top:34px"><div style="display:grid;grid-template-columns:${m.img&&m.back?'1fr 1fr':'1fr'};gap:12px">${im(m.img,'Recto')}${im(m.back,'Verso')}</div><h1 style="margin:16px 0 4px">${esc(m.name)}</h1><p class="price" style="font-size:20px;margin:0">${esc(m.price)}</p><p>${esc(m.desc)}</p>${sz.length?`<label>Taille<select id="msz">${sz.map(x=>`<option>${esc(x)}</option>`).join('')}</select></label>`:''}<button data-act="addc" data-id="${m.id}">Ajouter au panier</button></div></div></div>`}
+function cartModal(){if(!cartOpen)return'';const {its,sub,ship,tot}=totals();let h;
+ if(ORD){const pp=(S.set.paypal||'').replace(/^.*paypal\.me\//i,'').replace(/[\/?].*$/,'').trim();h=`<h3 style="margin-top:0">✅ Commande enregistrée</h3><p>N° <b>${ORD.id.toUpperCase()}</b> — total <b>${ORD.total.toFixed(2)}€</b></p>${pp?`<a class="chip" style="background:var(--ac);border-color:var(--ac);padding:10px 18px" target="_blank" rel="noopener" href="https://www.paypal.me/${encodeURIComponent(pp)}/${ORD.total.toFixed(2)}EUR">Payer avec PayPal / carte bancaire</a><p class="mut">Indique le numéro de commande dans la note du paiement. La commande part dès réception du paiement.</p>`:'<p class="mut">Le label te contactera pour le paiement.</p>'}`}
+ else h=its.length?its.map((i,n)=>`<div class="li"><div><b>${esc(i.m.name)}</b> ${i.size?`<span class="mut">(${esc(i.size)})</span>`:''}<br><span class="price">${esc(i.m.price)}</span></div><span><button class="b2" data-act="qty" data-i="${n}" data-d="-1">−</button> ${i.q} <button class="b2" data-act="qty" data-i="${n}" data-d="1">+</button> <button class="del" data-act="rmc" data-i="${n}">✕</button></span></div>`).join('')+`<p>Sous-total : ${sub.toFixed(2)}€<br>Livraison : ${ship.toFixed(2)}€<br><b>Total : ${tot.toFixed(2)}€</b></p><h4>Livraison</h4><div class="fg">${FS.oc().map(f=>field('oc',f,OCV[f[0]])).join('')}</div>${me.id?'<button data-act="order">Commander</button>':'<p class="mut">Connecte-toi pour finaliser la commande.</p>'+(realMe.id&&OUT?'<button data-act="login">Se connecter</button>':'')}`:'<p class="mut">Ton panier est vide.</p>';
+ return `<div class="ov" data-act="closeK"><div class="dlg" style="max-height:92vh;overflow:auto"><button class="x" data-act="closeK">✕</button><h3 style="margin-top:0">🛒 Panier</h3>${h}</div></div>`}
+const DISM=new Set(),pk=p=>'sm4l_pop_'+p.id+'_'+((p.title||'').length+(p.text||'').length),seen=p=>{try{return localStorage.getItem(pk(p))}catch(e){return null}};
+function popupModal(){const p=S.popups.find(x=>x.active==='1'&&!DISM.has(x.id)&&!(x.once==='1'&&seen(x)));if(!p||view==='admin')return'';
+ return `<div class="ov" data-act="closePop" data-id="${p.id}"><div class="dlg" style="text-align:center;padding:0;overflow:hidden"><button class="x" data-act="closePop" data-id="${p.id}">✕</button>${p.img?`<img src="${U(p.img)}" alt="" style="width:100%;height:200px;object-fit:cover;display:block">`:''}<div style="padding:24px"><h2 style="margin:0 0 8px;font-size:26px;color:#fff;letter-spacing:.04em;text-transform:none">${esc(p.title)}</h2><p style="white-space:pre-wrap">${esc(p.text)}</p>${p.btn&&p.link?`<a class="chip" style="background:var(--ac);border-color:var(--ac);padding:10px 20px" target="_blank" rel="noopener" href="${U(p.link)}">${esc(p.btn)}</a>`:''}</div></div></div>`}
+const modal=()=>artistModal()+memberModal()+composer()+merchModal()+playerModal()+cartModal()+popupModal()+confirmBox();
+function profile(){const m=mm();if(!m)return gate();
+ if(pedit)return `<div class="panel"><h3>Modifier mon profil</h3><div class="fg">${FS.pf().map(f=>field('pf',f,m[f[0]])).join('')}</div><button data-act="savePf">Enregistrer</button> <button class="b2" data-act="pedit0">Annuler</button>${assets?'':'<p class="mut">Photo et bannière : colle l\'URL d\'une image.</p>'}</div>`;
+ return `<div class="card phead">${profHead(m)}<div class="in"><button data-act="pedit1">✎ Modifier le profil</button></div></div><h2>Mes posts</h2>${myPosts(m)}`}
+function gate(){if(!db||!me.id)return `<div class="card mut">Connecte-toi pour participer au forum.${realMe.id&&OUT?'<br><br><button data-act="login">Se connecter</button>':''}</div>`;
+ if(mm()?.role==='banned')return `<div class="card mut">Ton compte est suspendu.</div>`;
+ return `<div class="card"><h3 style="margin-top:0">Crée ton compte</h3><p class="mut">Un compte est obligatoire pour poster et répondre.</p><label>Pseudo<input id="pseudo" maxlength="24"></label><button data-act="join">Créer mon compte</button></div>`}
+function post(p,big){const m=S.members.find(x=>x.id===p.uid),n=m?.pseudo||p.pseudo||'?';
+ const cc=big?'topics':'replies',ed=EDP&&EDP.id===p.id;
+ const body=ed?`${big?`<label>Titre<input id="ep-title" value="${esc(p.title)}"></label>`:''}<label>Message<textarea id="ep-text">${esc(p.text)}</textarea></label><button data-act="savep" data-c="${cc}" data-id="${p.id}">Enregistrer</button> <button class="b2" data-act="cancelp">Annuler</button>`:`${big?`<h3 style="margin:6px 0">${esc(p.title)}${p.year?` <span class="mut">(${esc(p.year)})</span>`:''}</h3>${p.review?`<div class="stars">${stars(p.rating)}</div>`:''}${p.spoiler?'<span class="badge" style="margin:0">⚠ Spoilers</span>':''}`:''}<div style="white-space:pre-wrap">${esc(p.text)}${p.edited?' <span class="mut">(modifié)</span>':''}</div>`;
+ const del=(isAdmin()||p.uid===me.id)&&db?`<button class="b2" style="padding:3px 9px;font-size:12px" data-act="editp" data-c="${cc}" data-id="${p.id}">Modifier</button> <button class="b2 del" style="padding:3px 9px;font-size:12px" data-act="del" data-c="${big?'topics':'replies'}" data-id="${p.id}">Supprimer</button>`:'';
+ return `<div class="card post"><div class="av" ${bg(m?.avatar)}>${m?.avatar?'':esc(n[0]||'?').toUpperCase()}</div><div style="flex:1"><b class="lk" data-act="mem" data-id="${p.uid}">${esc(n)}</b>${m&&m.role!=='member'?`<span class="badge">${m.role==='admin'?'Staff':esc(m.role)}</span>`:''} <span class="mut">${fmt(p.ts)}</span> ${del}${body}${p.img?`<img src="${U(p.img)}" alt="">`:''}</div></div>`}
+const stars=n=>{n=+n||0;return '★'.repeat(Math.floor(n))+(n%1?'½':'')},isRv=id=>S.fcats.find(c=>c.id===id)?.kind==='review';
+const cname=id=>S.fcats.find(c=>c.id===id)?.name||'';
+const chatHTML=()=>[...S.chat].sort((a,b)=>a.ts-b.ts).slice(-40).map(c=>`<div class="cmsg"><b class="lk" data-act="mem" data-id="${c.uid}">${esc(S.members.find(m=>m.id===c.uid)?.pseudo||c.pseudo)}</b> ${esc(c.text)} ${isAdmin()?`<span class="lk mut" data-act="del" data-c="chat" data-id="${c.id}">✕</span>`:''}</div>`).join('')||'<p class="mut">Aucun message.</p>';
+const chatPanel=()=>`<aside class="chat"><h3>💬 Chat du forum</h3><div id="chatlist">${chatHTML()}</div>${can()?`<div class="row"><input id="cm" maxlength="300" placeholder="Écrire un message…"><button data-act="csend">➤</button></div>`:`<button data-act="comp">Créer un compte pour discuter</button>`}</aside>`;
+function renderChat(){const l=$('#chatlist');if(l){l.innerHTML=chatHTML();l.scrollTop=l.scrollHeight}}
+function composer(){if(!comp)return'';const cs=S.fcats,ord=cs.filter(c=>!c.parent).flatMap(p=>[p,...cs.filter(c=>c.parent===p.id)]),cat=compCat||(isRv(fcat)||!fcat?ord.find(c=>c.kind!=='review')?.id:fcat)||ord[0]?.id,rv=isRv(cat);
+ const opt=c=>`<option value="${c.id}"${c.id===cat?' selected':''}>${c.parent?'— ':''}${esc(c.name)}</option>`;
+ return `<div class="ov" data-act="closeC"><div class="dlg" style="max-height:92vh;overflow:auto"><button class="x" data-act="closeC">✕</button>${can()?`<h3 style="margin-top:0">${rv?'🎬 Nouvelle review':'Nouveau post'}</h3><label>Catégorie<select id="ncat" data-act="ncat">${ord.map(opt).join('')}</select></label>${rv?`<div class="fg"><label>Film<input id="nt"></label><label>Année<input id="ny" maxlength="4"></label></div><label>Ta note<select id="nr">${[5,4.5,4,3.5,3,2.5,2,1.5,1,.5].map(n=>`<option value="${n}">${stars(n)} (${n}/5)</option>`).join('')}</select></label><label>Ta review<textarea id="nm"></textarea></label><label>Spoilers ?<select id="nsp"><option value="0">Non</option><option value="1">Oui, cette review contient des spoilers</option></select></label>${field('nimg',['u','Affiche du film (optionnel)','img'])}`:`<label>Titre<input id="nt"></label><label>Message<textarea id="nm"></textarea></label>${field('nimg',['u','Image (optionnel)','img'])}`}<button data-act="topic">Publier</button>`:gate()}</div></div>`}
+function forum(){let h;
+ if(topic){const t=S.topics.find(x=>x.id===topic);if(!t){topic=null;return forum()}
+  const rs=S.replies.filter(r=>r.topicId===t.id).sort((a,b)=>a.ts-b.ts);
+  h=`<button class="b2" data-act="back">← Retour au feed</button><div style="height:12px"></div>${post(t,true)}${rs.map(r=>post(r)).join('')}${can()?`<div class="card"><h3 style="margin-top:0">Répondre</h3><label>Message<textarea id="rp"></textarea></label><button data-act="reply">Envoyer</button></div>`:`<button data-act="comp">Créer un compte pour répondre</button>`}`}
+ else{const cur=S.fcats.find(c=>c.id===fcat),tp=cur?.parent||fcat,subs=tp?S.fcats.filter(c=>c.parent===tp):[];
+  const subbar=subs.length?`<div class="tabs" style="margin-top:-4px"><button class="${fcat===tp?'on':''}" data-act="fc" data-id="${tp}">Tout ${esc(cname(tp))}</button>${subs.map(x=>`<button class="${x.id===fcat?'on':''}" data-act="fc" data-id="${x.id}">${x.kind==='review'?'🎬 ':''}${esc(x.name)}</button>`).join('')}</div>`:'';
+  const rvs=cur?.kind==='review'?S.topics.filter(t=>t.cat===cur.id&&t.review):[],avg=rvs.length?`<p class="mut">★ ${(rvs.reduce((a,t)=>a+(+t.rating||0),0)/rvs.length).toFixed(1)}/5 de moyenne · ${rvs.length} review(s)</p>`:'';
+  const ts=S.topics.filter(t=>!fcat||t.cat===fcat||S.fcats.find(c=>c.id===t.cat)?.parent===fcat).sort((a,b)=>b.ts-a.ts);
+  h=`<div class="bar"><div class="tabs"><button class="${!fcat?'on':''}" data-act="fc" data-id="">Tout</button>${S.fcats.filter(c=>!c.parent).map(x=>`<button class="${x.id===fcat||cur?.parent===x.id?'on':''}" data-act="fc" data-id="${x.id}">${esc(x.name)}</button>`).join('')}</div><button data-act="comp">＋ Poster</button></div>${subbar}${avg}`+(ts.map(t=>{const sc=S.votes.filter(v=>v.topicId===t.id),vo=sc.some(v=>v.uid===me.id);return `<div class="rp" data-act="top" data-id="${t.id}"><div class="vt"><button class="vb ${vo?'on':''}" data-act="vote" data-id="${t.id}">▲</button><b>${sc.length}</b></div><div class="rb"><span class="mut">${esc(cname(t.cat))} · par ${esc(S.members.find(m=>m.id===t.uid)?.pseudo||t.pseudo||'?')} · ${fmt(t.ts)}</span><h4>${esc(t.title)}</h4><p class="pv">${esc(t.text)}</p><span class="mut">💬 ${S.replies.filter(r=>r.topicId===t.id).length} commentaires</span>${db&&(isAdmin()||t.uid===me.id)?`<button class="b2 del" style="padding:2px 9px;font-size:12px;float:right" data-act="del" data-c="topics" data-id="${t.id}">🗑 Supprimer</button>`:''}</div>${t.img||t.review?`<div class="rth ${t.review?'po':''}" ${bg(t.img)}>${t.img?'':'🎬'}</div>`:''}</div>`}).join('')||'<p class="mut">Aucun post ici. Lance le premier !</p>')}
+ return `<div class="fwrap"><div>${h}</div>${chatPanel()}</div>`}
+
+const FXS=[['dim','Assombrissement',0,90],['blur','Flou',0,20],['sat','Saturation',0,200],['glitch','Glitch',0,40],['grain','Grain de film',0,80],['scan','Lignes TV',0,60],['vig','Vignette',0,100],['embers','Braises',0,80]];
+const FXD={dim:70,blur:0,sat:100,glitch:0,grain:0,scan:0,vig:0,embers:0,zoom:false};
+const PRE={none:['Aucun',{}],soft:['Flou doux',{blur:8,dim:60,sat:110}],glitch:['Glitch cyber',{glitch:16,scan:25,grain:20,dim:55,sat:130}],vint:['Film vintage',{grain:45,vig:60,sat:60,dim:50,zoom:true}],fire:['Braises',{embers:50,vig:45,dim:70,zoom:true}]};
+const fxv=()=>({...FXD,...(FXP||S.set.fx||{})});
+const readFx=()=>{const o={zoom:$('#fx-zoom').checked};FXS.forEach(([k])=>o[k]=+$('#fx-'+k).value);return o};
+function applyFx(f){f={...FXD,...(f||{})};const r=document.documentElement.style,b=$('#bgm');
+ r.setProperty('--dim',f.dim/100);r.setProperty('--blur',f.blur+'px');r.setProperty('--sat',f.sat+'%');r.setProperty('--g',f.glitch);r.setProperty('--grain',f.grain/100);r.setProperty('--scan',f.scan/100);r.setProperty('--vig',f.vig/100);
+ b.classList.toggle('gl',f.glitch>0);b.classList.toggle('kb',!!f.zoom);
+ const c=Math.round(f.embers/2),e=$('#emb');if(e.dataset.c!=c){e.dataset.c=c;e.innerHTML=Array.from({length:c},()=>`<i style="left:${Math.random()*100}%;animation-duration:${6+Math.random()*10}s;animation-delay:-${Math.random()*12}s;width:${2+Math.random()*4}px;height:${2+Math.random()*4}px"></i>`).join('')}}
+function fxPanel(){const v=fxv();return `<div class="panel"><h3>Effets d'arrière-plan</h3><p class="mut">Aperçu en direct sur le site. Pense à enregistrer.</p><div class="tabs">${Object.entries(PRE).map(([k,p])=>`<button data-act="preset" data-id="${k}">${p[0]}</button>`).join('')}</div><div class="fg">${FXS.map(([k,l,a,b])=>`<label>${l} <b id="fv-${k}">${v[k]}</b><input type="range" id="fx-${k}" min="${a}" max="${b}" value="${v[k]}"></label>`).join('')}</div><label><input type="checkbox" id="fx-zoom" style="display:inline;width:auto" ${v.zoom?'checked':''}> Zoom lent sur le fond</label><button data-act="saveFx">Enregistrer</button> <button class="b2" data-act="resetFx">Annuler l'aperçu</button></div>`}
+const AT=[['fx','Effets'],['site','Site'],['cats','Catégories'],['fcats','Forum'],['orders','Commandes'],['popups','Popups'],['posts','Posts & chat'],['members','Membres'],['artist','Artistes'],['merch','Merch'],['rel','Sons & clips']];
+function two(kind,coll,list,lab,sub){const o=list.find(x=>x.id===ED[kind]);
+ return `<div class="adm"><div class="panel"><h3>${list.length} élément(s)</h3>${list.map(x=>`<div class="li"><div><b>${esc(lab(x))}</b>${sub?`<br><span class="mut">${esc(sub(x))}</span>`:''}</div><span><button class="b2" data-act="ed" data-k="${kind}" data-id="${x.id}">Modifier</button><button class="del" data-act="del" data-c="${coll}" data-id="${x.id}">✕</button></span></div>`).join('')||'<p class="mut">Rien pour l\'instant.</p>'}</div><div class="panel"><h3>${o?'Modifier':'Ajouter'}</h3><div class="fg">${FS[kind]().map(f=>field(kind,f,o?.[f[0]])).join('')}</div><button data-act="save" data-k="${kind}" data-c="${coll}">${o?'Enregistrer':'Ajouter'}</button>${o?` <button class="b2" data-act="ed" data-k="${kind}" data-id="">Annuler</button>`:''}</div></div>`}
+function admin(){const t=AT0,hid=S.set.hidden||[];let h='';
+ if(t==='site')h=`<div class="panel"><h3>Réglages du site</h3><div class="fg">${FS.site().map(f=>field('site',f,S.set[f[0]])).join('')}</div><button data-act="saveSite">Enregistrer</button><p class="mut">Si une vidéo de fond est renseignée, elle remplace l'image.</p></div>`;
+ else if(t==='cats')h=`<div class="panel" style="margin-bottom:16px"><h3>Menu principal</h3>${BASE.filter(b=>b[0]!=='all').map(b=>`<div class="li"><span>${b[1]}</span><button class="b2" data-act="tog" data-id="${b[0]}">${hid.includes(b[0])?'Afficher':'Masquer'}</button></div>`).join('')}</div>`+two('cat','cats',S.cats,x=>x.label);
+ else if(t==='fcats')h=two('fcat','fcats',S.fcats,x=>x.name,x=>x.desc);
+ else if(t==='posts'){const row=(c,id,t1,t2)=>`<div class="li"><div><b>${t1}</b><br><span class="mut">${t2}</span></div><button class="del" data-act="del" data-c="${c}" data-id="${id}">✕</button></div>`;
+  h=`<div class="panel" style="margin-bottom:16px"><h3>${S.topics.length} post(s)</h3>${[...S.topics].sort((a,b)=>b.ts-a.ts).map(x=>row('topics',x.id,esc(x.title),esc(cname(x.cat))+' · '+esc(S.members.find(m=>m.id===x.uid)?.pseudo||x.pseudo||'?')+' · '+fmt(x.ts))).join('')||'<p class="mut">Aucun post.</p>'}</div>
+  <div class="panel" style="margin-bottom:16px"><h3>${S.replies.length} commentaire(s)</h3>${[...S.replies].sort((a,b)=>b.ts-a.ts).map(x=>row('replies',x.id,esc((x.text||'').slice(0,80)),esc(S.members.find(m=>m.id===x.uid)?.pseudo||x.pseudo||'?')+' · '+fmt(x.ts))).join('')||'<p class="mut">Aucun commentaire.</p>'}</div>
+  <div class="panel"><h3>${S.chat.length} message(s) de chat</h3>${S.chat.length?'<button class="del" data-act="clearChat">Vider tout le chat</button>':''}${[...S.chat].sort((a,b)=>b.ts-a.ts).slice(0,40).map(x=>row('chat',x.id,esc((x.text||'').slice(0,80)),esc(x.pseudo||'?')+' · '+fmt(x.ts))).join('')}</div>`}
+ else if(t==='popups')h=two('popup','popups',S.popups,x=>x.title,x=>x.active==='1'?'Actif':'Désactivé');
+ else if(t==='orders')h=`<div class="panel"><h3>${S.orders.length} commande(s)</h3>${[...S.orders].sort((a,b)=>b.ts-a.ts).map(o=>`<div class="card"><div class="li" style="border:0"><b>#${o.id.toUpperCase()} · ${(o.total||0).toFixed(2)}€</b><span class="mut">${fmt(o.ts)}</span></div>${(o.items||[]).map(i=>`<div>${i.q}× ${esc(i.name)} ${esc(i.size)}</div>`).join('')}<p class="mut">${esc(o.cust?.name)} · ${esc(o.cust?.email)}<br>${esc(o.cust?.addr)}, ${esc(o.cust?.zip)} ${esc(o.cust?.city)} ${esc(o.cust?.country)}</p><select data-act="ostat" data-id="${o.id}" style="display:inline;width:auto">${['En attente de paiement','Payée','Expédiée','Annulée'].map(x=>`<option${o.status===x?' selected':''}>${x}</option>`).join('')}</select> <button class="del" data-act="del" data-c="orders" data-id="${o.id}">✕</button></div>`).join('')||'<p class="mut">Aucune commande.</p>'}</div>`;
+ else if(t==='members')h=`<div class="panel"><h3>${S.members.length} membre(s)</h3>${S.members.map(m=>`<div class="li"><b>${esc(m.pseudo)}</b><span><select data-act="role" data-id="${m.id}" style="display:inline;width:auto">${['member','artist','admin','banned'].map(r=>`<option${m.role===r?' selected':''}>${r}</option>`).join('')}</select><button class="del" data-act="del" data-c="members" data-id="${m.id}">✕</button></span></div>`).join('')||'<p class="mut">Aucun membre.</p>'}</div>`;
+ else if(t==='fx')h=fxPanel();
+ else if(t==='artist')h=two('artist','artists',S.artists,x=>x.name);
+ else if(t==='merch')h=two('merch','merch',S.merch,x=>x.name,x=>x.price);
+ else h=two('rel','releases',drops(),x=>x.title,x=>aName(x.artistId)+' · '+x.type);
+ return `<div class="admnav">${AT.map(a=>`<button class="${t===a[0]?'on':''}" data-act="atab" data-id="${a[0]}">${a[1]}</button>`).join('')}</div>${h}`}
+
+function render(){
+ if(cartOpen&&$('#oc-name'))OCV=rd('oc',FS.oc());
+ if(/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||''))return;
+ const s=S.set,hid=s.hidden||[],nav=[...BASE.filter(b=>b[0]==='all'||!hid.includes(b[0])),...S.cats.map(c=>['c:'+c.id,c.label])];
+ applyFx(FXP||S.set.fx);if(mm())nav.push(['profile','Mon profil']);if(isAdmin())nav.push(['admin','⚙ Admin']);
+ const key=(s.heroVideo||'')+'|'+(s.hero||'');if(key!==bgKey){bgKey=key;const b=$('#bgm');b.innerHTML=`<div class="bi" ${s.heroVideo?'':bg(s.hero)}>${s.heroVideo&&U(s.heroVideo)!=='#'?`<video src="${U(s.heroVideo)}" autoplay muted loop playsinline></video>`:''}</div>`}
+ $('#hd').innerHTML=`<div class="brand" data-act="nav" data-id="all">${s.logo?`<img src="${U(s.logo)}" alt="">`:''}${esc(s.name||'SM4L SQUAD')}</div><nav>${nav.map(n=>`<button class="${view===n[0]?'on':''}" data-act="nav" data-id="${n[0]}">${esc(n[1])}</button>`).join('')}</nav><button class="b2" data-act="cart" style="padding:6px 12px">🛒 ${CART.reduce((a,i)=>a+i.q,0)}</button><div class="me">${mm()?`${esc(mm().pseudo)} <button class="b2" style="padding:5px 12px;margin-left:6px" data-act="logout">Se déconnecter</button>`:(realMe.id?`<button data-act="${OUT?'login':'comp'}" style="padding:6px 14px">${OUT?'Se connecter':'Créer un compte'}</button>`:'Visiteur')}</div>`;
+ let h='';
+ if(view==='all')h=`<div class="top"><h1>${esc(s.name||'SM4L SQUAD')}</h1><p>${esc(s.tagline||'Groupe indépendant')}</p></div>`+home();
+ else if(view==='profile')h=sec('Mon profil',profile());
+ else if(view==='drop')h=sec('Dernier drop',`<div class="grid">${drops().map(relTile).join('')||'<p class="mut">Aucun drop.</p>'}</div>`);
+ else if(view==='artists')h=sec('Artistes',`<div class="grid">${S.artists.map(artTile).join('')||'<p class="mut">Aucun artiste.</p>'}</div>`);
+ else if(view==='merch')h=sec('Merch',`<div class="grid">${S.merch.map(merchTile).join('')||'<p class="mut">Rien en vente.</p>'}</div>`);
+ else if(view==='forum')h=sec('Forum',forum());
+ else if(view==='admin'&&isAdmin())h=sec('Administration',admin());
+ else if(view.startsWith('c:')){const c=S.cats.find(x=>'c:'+x.id===view);h=c?sec(esc(c.label),`<div class="card" style="white-space:pre-wrap">${esc(c.text)}</div>`):''}
+ const l=[['ig','Instagram'],['sp','Spotify'],['yt','YouTube']].filter(([k])=>s[k]).map(([k,n])=>`<a class="chip" target="_blank" rel="noopener" href="${U(s[k])}">${n}</a>`).join('');
+ $('#app').innerHTML=h+`<footer style="margin-top:40px;color:var(--mut)">${l}<br>© 2026 ${esc(s.name||'SM4L SQUAD')}</footer>`+modal();
+}
+
+document.addEventListener('click',async e=>{
+ const el=e.target.closest('[data-act]');if(!el)return;const a=el.dataset.act,id=el.dataset.id;
+ if(/^(close|cfno)/.test(a)&&e.target!==el)return;
+ if(a==='nav'){view=id;topic=null;open=null}
+ else if(a==='art')open=id; else if(a==='close')open=null;
+ else if(a==='play')play=id; else if(a==='closeP')play=null;
+ else if(a==='mem')omem=id; else if(a==='closeM')omem=null;
+ else if(a==='fc'){fcat=id;topic=null} else if(a==='comp'){comp=true;compCat=null} else if(a==='closeC')comp=false;
+ else if(a==='preset')FXP={...FXD,...PRE[id][1]}; else if(a==='resetFx')FXP=null; else if(a==='cfno')CF=null;
+ else if(a==='mer')omerch=id; else if(a==='closeMe')omerch=null;
+ else if(a==='cart')cartOpen=true; else if(a==='closeK'){cartOpen=false;ORD=null}
+ else if(a==='addc'){const sz=$('#msz')?.value||'',k=CART.find(i=>i.id===id&&i.size===sz);k?k.q++:CART.push({id,size:sz,q:1});sv();omerch=null;cartOpen=true}
+ else if(a==='qty'){const n=+el.dataset.i;CART[n].q+=+el.dataset.d;if(CART[n].q<1)CART.splice(n,1);sv()}
+ else if(a==='rmc'){CART.splice(+el.dataset.i,1);sv()}
+ else if(a==='closePop'){DISM.add(id);const p=S.popups.find(x=>x.id===id);if(p&&p.once==='1')try{localStorage.setItem(pk(p),'1')}catch(x){}}
+ else if(a==='cfyes'){const fn=CF.fn;CF=null;render();await fn();return}
+ else if(a==='logout'){OUT=true;me={id:null,isOwner:false};try{localStorage.setItem('sm4l_out','1')}catch(x){}if(view==='profile'||view==='admin')view='all'}
+ else if(a==='login'){OUT=false;me=realMe;try{localStorage.removeItem('sm4l_out')}catch(x){}}
+ else if(a==='editp')EDP={c:el.dataset.c,id}; else if(a==='cancelp')EDP=null; else if(a==='pedit1')pedit=true; else if(a==='pedit0')pedit=false; else if(a==='atab')AT0=id;
+ else if(a==='top'){topic=id;view='forum';omem=null} else if(a==='back')topic=null;
+ else if(a==='ed')ED[el.dataset.k]=id;
+ else if(a==='up'){const inp=document.createElement('input');inp.type='file';inp.accept='image/*,video/*';inp.onchange=async()=>{try{const r=await assets.upload(inp.files[0]);$('#'+el.dataset.t).value=r.url}catch(x){alert('Envoi impossible : '+(x.message||x.code))}};inp.click();return}
+ else if(!db)return;
+ else if(a==='join'){const p=$('#pseudo').value.trim();if(!p)return;if(S.members.some(m=>m.pseudo.toLowerCase()===p.toLowerCase()))return alert('Pseudo déjà pris.');await w('members/'+me.id,{pseudo:p,role:me.isOwner?'admin':'member',ts:Date.now()})}
+ else if(a==='topic'){const t=$('#nt').value.trim(),m=$('#nm').value.trim();if(!t||!m||!can())return;comp=false;await w('topics/'+uid(),{...(isRv($('#ncat').value)?{review:1,rating:+$('#nr').value,year:($('#ny').value||'').trim(),spoiler:$('#nsp').value==='1'}:{}),cat:$('#ncat').value,title:t,text:m,img:$('#nimg-u').value.trim(),uid:me.id,pseudo:mm().pseudo,ts:Date.now()})}
+ else if(a==='reply'){const m=$('#rp').value.trim();if(!m||!can())return;await w('replies/'+uid(),{topicId:topic,text:m,uid:me.id,pseudo:mm().pseudo,ts:Date.now()})}
+ else if(a==='postrel'){const v=rd('pr',FS.pr());if(!v.title||!(v.url||v.file))return alert('Titre et lien ou fichier requis.');await w('releases/'+uid(),{...v,artistId:id,ts:Date.now(),by:me.id})}
+ else if(a==='save'&&isAdmin()){const k=el.dataset.k,c=el.dataset.c,v=rd(k,FS[k]());const old=S[cm[c]].find(x=>x.id===ED[k])||{};const nid=ED[k]||uid();delete old.id;ED[k]='';await w(c+'/'+nid,{...old,...v,ts:old.ts||Date.now()})}
+ else if(a==='saveSite'&&isAdmin())await w('config/site',{...S.set,...rd('site',FS.site())});
+ else if(a==='savePf'&&can()){await w('members/'+me.id,{...mm(),...rd('pf',FS.pf())});pedit=false}
+ else if(a==='order'){if(!me.id)return alert('Connecte-toi pour commander.');const c=rd('oc',FS.oc());if(!c.name||!c.email||!c.addr||!c.zip||!c.city)return alert('Remplis ton nom, e-mail, adresse, code postal et ville.');const {its,sub,ship,tot}=totals();if(!its.length)return;const oid=uid();OCV={};await w('orders/'+oid,{items:its.map(i=>({name:i.m.name,size:i.size,q:i.q,price:pr(i.m.price)})),sub,ship,total:tot,cust:c,status:'En attente de paiement',uid:me.id,ts:Date.now()});ORD={id:oid,total:tot};CART=[];sv()}
+ else if(a==='savep'){const c=el.dataset.c,old=S[cm[c]].find(x=>x.id===id);if(!old||(!isAdmin()&&old.uid!==me.id))return;const t=$('#ep-text').value.trim();if(!t)return;const d={...old,text:t,edited:Date.now()};delete d.id;if(c==='topics')d.title=$('#ep-title').value.trim()||old.title;EDP=null;await w(c+'/'+id,d)}
+ else if(a==='clearChat'&&isAdmin()){CF={msg:'Vider tout le chat ?',fn:async()=>{for(const m of S.chat)await db.doc('chat/'+m.id).delete()}}}
+ else if(a==='saveFx'&&isAdmin()){await w('config/site',{...S.set,fx:fxv()});FXP=null}
+ else if(a==='vote'&&can()){e.stopPropagation();const v=S.votes.find(x=>x.topicId===id&&x.uid===me.id);if(v)await db.doc('votes/'+v.id).delete();else await w('votes/'+id+'_'+me.id,{topicId:id,uid:me.id})}
+ else if(a==='csend'&&can()){const i=$('#cm'),t=i.value.trim();if(!t)return;i.value='';await w('chat/'+uid(),{text:t,uid:me.id,pseudo:mm().pseudo,ts:Date.now()});return}
+ else if(a==='tog'&&isAdmin()){const h=S.set.hidden||[];await w('config/site',{...S.set,hidden:h.includes(id)?h.filter(x=>x!==id):[...h,id]})}
+ else if(a==='del'){const c=el.dataset.c;const own=['topics','replies','chat'].includes(c)&&(S[cm[c]].find(x=>x.id===id)||{}).uid===me.id;if(!isAdmin()&&!own)return alert('Action réservée au staff.');CF={msg:'Supprimer définitivement ?',fn:()=>doDel(c,id)}}
+ render();
+});
+document.addEventListener('input',e=>{const i=e.target.id||'';if(i.startsWith('fx-')){FXP=readFx();applyFx(FXP);FXS.forEach(([k])=>{const v=$('#fv-'+k);if(v)v.textContent=FXP[k]})}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='cm')document.querySelector('[data-act=csend]').click()});
+document.addEventListener('change',e=>{const el=e.target;if(el.dataset.act==='ncat'){compCat=el.value;el.blur();render();return}if(el.dataset.act==='ostat'&&db&&isAdmin()){const o=S.orders.find(x=>x.id===el.dataset.id);const d={...o,status:el.value};delete d.id;w('orders/'+o.id,d)}if(el.dataset.act==='role'&&db&&isAdmin()){const m=S.members.find(x=>x.id===el.dataset.id);w('members/'+m.id,{...m,role:el.value})}});
+
+(async()=>{render();
+ try{const c=window.claude;if(!c)return;db=await c.use('db');const u=await c.use('user');assets=await c.use('assets');if(u){realMe=await u.me();me=OUT?{id:null,isOwner:false}:realMe}
+  if(db){for(const k in col)db.collection(col[k]).onSnapshot(s=>{S[k]=s.docs.map(d=>({...d.data(),id:d.id}));if(k==='chat'){renderChat();return}if(k==='fcats'&&!s.empty&&isAdmin()&&S.fcats.some(c=>c.id==='cinema')&&!S.fcats.some(c=>c.id==='reviews')){let d=null;try{d=localStorage.getItem('sm4l_rev')}catch(e){}if(!d){try{localStorage.setItem('sm4l_rev','1')}catch(e){}w('fcats/reviews',{name:'Reviews',desc:'Tes critiques de films, façon Letterboxd : note, review, affiche.',parent:'cinema',kind:'review',ts:Date.now()})}}
+   if(k==='fcats'&&s.empty&&!seeded&&isAdmin()){seeded=1;[['chat','Chat All','Discussion libre'],['musique','Partage Musique','Sons, clips et découvertes'],['cinema','Partage Cinéma','Films, séries et clips']].forEach(([i,n,d])=>w('fcats/'+i,{name:n,desc:d,ts:Date.now()}))}render()},()=>{});
+   db.doc('config/site').onSnapshot(s=>{S.set=s.data()||{};render()})}
+  render()}catch(e){console.error(e);render()}})();
+</script></body></html>
